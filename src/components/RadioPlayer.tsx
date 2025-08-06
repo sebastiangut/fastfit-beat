@@ -133,13 +133,13 @@ const RadioPlayer: React.FC<RadioPlayerProps> = ({ station, isOpen, onClose }) =
               <Button 
                 variant="default"
                 size="icon"
-                className="h-16 w-16 rounded-full bg-gradient-primary hover:scale-105 transition-transform shadow-glow [&>svg]:text-white"
+                className="h-16 w-16 rounded-full bg-gradient-primary hover:scale-105 transition-transform shadow-glow"
                 onClick={togglePlayPause}
               >
                 {isPlaying ? (
-                  <Pause className="h-10 w-10" />
+                  <Pause className="h-10 w-10 text-white" />
                 ) : (
-                  <Play className="h-10 w-10 ml-1" />
+                  <Play className="h-10 w-10 ml-1 text-white" />
                 )}
               </Button>
               
