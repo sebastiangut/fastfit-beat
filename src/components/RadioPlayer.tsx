@@ -82,21 +82,21 @@ const RadioPlayer: React.FC<RadioPlayerProps> = ({ station, isOpen, onClose }) =
   if (!station || !isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-end md:items-center justify-center p-4">
-      <Card className="w-full max-w-md bg-gradient-card shadow-player animate-fade-in">
-        <div className="relative">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-end md:items-center justify-center">
+      <Card className="w-full h-full md:w-full md:h-auto md:max-w-[400px] md:m-4 bg-gradient-card shadow-player animate-fade-in md:rounded-lg rounded-none">
+        <div className="relative h-full md:h-auto flex flex-col">
           {/* Close button */}
           <Button 
             variant="ghost" 
             size="icon"
-            className="absolute top-4 right-4 z-10 text-foreground hover:bg-secondary"
+            className="absolute top-4 right-4 z-10 text-white md:text-foreground hover:bg-white/20 md:hover:bg-secondary"
             onClick={onClose}
           >
             <X className="h-5 w-5" />
           </Button>
 
           {/* Cover image */}
-          <div className="aspect-square relative overflow-hidden rounded-t-lg">
+          <div className="aspect-square md:aspect-square relative overflow-hidden md:rounded-t-lg flex-shrink-0">
             <img 
               src={station.coverImage} 
               alt={station.name}
@@ -106,13 +106,13 @@ const RadioPlayer: React.FC<RadioPlayerProps> = ({ station, isOpen, onClose }) =
             
             {/* Station info overlay */}
             <div className="absolute bottom-4 left-4 text-white">
-              <h2 className="text-2xl font-bold">{station.name}</h2>
+              <h2 className="text-2xl md:text-2xl font-bold">{station.name}</h2>
               <p className="text-white/80">{station.genre}</p>
             </div>
           </div>
 
           {/* Player controls */}
-          <div className="p-6 space-y-6">
+          <div className="p-6 space-y-6 flex-1 flex flex-col justify-center md:flex-initial md:justify-start">
             {/* Main controls */}
             <div className="flex items-center justify-center space-x-4">
               <Button 
