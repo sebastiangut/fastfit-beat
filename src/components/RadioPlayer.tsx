@@ -20,7 +20,7 @@ interface RadioPlayerProps {
 
 const RadioPlayer: React.FC<RadioPlayerProps> = ({ station, isOpen, onClose }) => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [volume, setVolume] = useState([50]);
+  const [volume, setVolume] = useState([75]);
   const [isMuted, setIsMuted] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
