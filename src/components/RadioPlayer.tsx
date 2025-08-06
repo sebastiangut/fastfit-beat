@@ -114,34 +114,34 @@ const RadioPlayer: React.FC<RadioPlayerProps> = ({ station, isOpen, onClose }) =
           {/* Player controls */}
           <div className="p-6 space-y-6 flex-1 flex flex-col justify-center md:flex-initial md:justify-start">
             {/* Main controls */}
-            <div className="flex items-center justify-center space-x-4">
+            <div className="flex items-center justify-center space-x-8">
               <Button 
                 variant="ghost" 
                 size="icon"
-                className="text-muted-foreground hover:text-foreground"
+                className="h-12 w-12 text-muted-foreground hover:text-foreground"
               >
-                <SkipBack className="h-5 w-5" />
+                <SkipBack className="h-6 w-6" />
               </Button>
               
               <Button 
                 variant="default"
                 size="icon"
-                className="h-14 w-14 rounded-full bg-gradient-primary hover:scale-105 transition-transform shadow-glow"
+                className="h-16 w-16 rounded-full bg-gradient-primary hover:scale-105 transition-transform shadow-glow"
                 onClick={togglePlayPause}
               >
                 {isPlaying ? (
-                  <Pause className="h-6 w-6" />
+                  <Pause className="h-7 w-7" />
                 ) : (
-                  <Play className="h-6 w-6 ml-1" />
+                  <Play className="h-7 w-7 ml-1" />
                 )}
               </Button>
               
               <Button 
                 variant="ghost" 
                 size="icon"
-                className="text-muted-foreground hover:text-foreground"
+                className="h-12 w-12 text-muted-foreground hover:text-foreground"
               >
-                <SkipForward className="h-5 w-5" />
+                <SkipForward className="h-6 w-6" />
               </Button>
             </div>
 
