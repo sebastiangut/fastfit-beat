@@ -144,8 +144,8 @@ const RadioPlayer: React.FC<RadioPlayerProps> = ({ station, isOpen, onClose }) =
                   />
                   <defs>
                     <linearGradient id="gradient-player" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" style={{ stopColor: 'hsl(var(--primary))' }} />
-                      <stop offset="100%" style={{ stopColor: 'hsl(var(--primary-glow))' }} />
+                      <stop offset="0%" style={{ stopColor: 'hsl(var(--primary))', stopOpacity: '1' }} />
+                      <stop offset="100%" style={{ stopColor: 'hsl(var(--primary))', stopOpacity: '0.8' }} />
                     </linearGradient>
                   </defs>
                 </svg>
