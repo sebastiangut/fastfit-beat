@@ -137,9 +137,9 @@ const RadioPlayer: React.FC<RadioPlayerProps> = ({ station, isOpen, onClose }) =
                 onClick={togglePlayPause}
               >
                 {isPlaying ? (
-                  <Pause className="h-7 w-7" />
+                  <Pause className="h-10 w-10 text-white" />
                 ) : (
-                  <Play className="h-7 w-7 ml-1" />
+                  <Play className="h-10 w-10 ml-1 text-white" />
                 )}
               </Button>
               
