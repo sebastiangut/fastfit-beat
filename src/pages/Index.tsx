@@ -109,7 +109,7 @@ const Index = () => {
         {/* Hero section */}
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-primary bg-clip-text text-transparent">
-            Fast Fit <span className="text-foreground">Moving!</span>
+            Fast Fit <span className="text-foreground">music</span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Energize your workout with our curated radio stations designed for every fitness routine
