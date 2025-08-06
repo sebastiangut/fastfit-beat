@@ -95,6 +95,13 @@ const RadioPlayer: React.FC<RadioPlayerProps> = ({ station, isOpen, onClose }) =
             <X className="h-5 w-5" />
           </Button>
 
+          {/* Header Title */}
+          <div className="text-center py-6">
+            <h1 className="text-2xl md:text-3xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+              Fast Fit <span className="text-foreground">Radio</span>
+            </h1>
+          </div>
+
           {/* Cover image */}
           <div className="aspect-square md:aspect-square relative overflow-hidden md:rounded-t-lg flex-shrink-0">
             <img 
@@ -103,11 +110,6 @@ const RadioPlayer: React.FC<RadioPlayerProps> = ({ station, isOpen, onClose }) =
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-            
-            {/* Top title */}
-            <div className="absolute top-4 left-4 text-white">
-              <h1 className="text-lg font-bold">Fast Fit Radio</h1>
-            </div>
             
             {/* Station info overlay */}
             <div className="absolute bottom-4 left-4 text-white">
