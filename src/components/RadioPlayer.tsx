@@ -130,18 +130,33 @@ const RadioPlayer: React.FC<RadioPlayerProps> = ({ station, isOpen, onClose }) =
                 <SkipBack className="h-6 w-6" />
               </Button>
               
-              <Button 
-                variant="default"
-                size="icon"
-                className="h-16 w-16 rounded-full bg-gradient-primary hover:scale-105 transition-transform shadow-glow"
+              <button
+                className="relative h-16 w-16 hover:scale-105 transition-transform shadow-glow"
                 onClick={togglePlayPause}
               >
+                {/* Background circle */}
+                <svg className="w-full h-full" viewBox="0 0 64 64">
+                  <circle 
+                    cx="32" 
+                    cy="32" 
+                    r="32" 
+                    style={{ fill: 'url(#gradient-player)' }}
+                  />
+                  <defs>
+                    <linearGradient id="gradient-player" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" style={{ stopColor: 'hsl(var(--primary))' }} />
+                      <stop offset="100%" style={{ stopColor: 'hsl(var(--primary-glow))' }} />
+                    </linearGradient>
+                  </defs>
+                </svg>
+                
+                {/* Play/Pause icon - white filled and centered */}
                 {isPlaying ? (
-                  <Pause className="h-10 w-10 text-white" />
+                  <Pause className="absolute inset-0 m-auto h-8 w-8 text-white" fill="white" />
                 ) : (
-                  <Play className="h-10 w-10 ml-1 text-white" />
+                  <Play className="absolute inset-0 m-auto h-8 w-8 text-white" fill="white" />
                 )}
-              </Button>
+              </button>
               
               <Button 
                 variant="ghost" 
