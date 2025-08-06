@@ -40,7 +40,7 @@ const radioStations: RadioStation[] = [
     id: '3',
     name: 'YOGA',
     genre: 'Ambient, Chill, Meditation',
-    streamUrl: 'https://hls.somafm.com/hls/groovesalad/FLAC/program.m3u8',
+    streamUrl: 'https://motherearth.streamserver24.com/listen/motherearth/motherearth',
     coverImage: yogaCover,
   },
   {
