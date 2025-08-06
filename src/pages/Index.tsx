@@ -64,6 +64,34 @@ const radioStations: RadioStation[] = [
     streamUrl: 'http://ice4.somafm.com/covers-128-aac',
     coverImage: strengthCover,
   },
+  {
+    id: '7',
+    name: 'Indie Pop',
+    genre: 'Alternative, Indie, Pop',
+    streamUrl: 'http://ice4.somafm.com/indiepop-128-aac',
+    coverImage: spinCover,
+  },
+  {
+    id: '8',
+    name: 'Celtic',
+    genre: 'Celtic, Folk, Traditional',
+    streamUrl: 'http://ice6.somafm.com/thistle-128-aac',
+    coverImage: yogaCover,
+  },
+  {
+    id: '9',
+    name: 'Dubstep',
+    genre: 'Electronic, Dubstep, Bass',
+    streamUrl: 'http://ice1.somafm.com/dubstep-128-aac',
+    coverImage: highenergyCover,
+  },
+  {
+    id: '10',
+    name: 'Soul',
+    genre: 'Soul, R&B, Funk',
+    streamUrl: 'http://ice4.somafm.com/7soul-128-aac',
+    coverImage: strengthCover,
+  },
 ];
 
 const Index = () => {
