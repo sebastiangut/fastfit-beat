@@ -96,7 +96,7 @@ const RadioPlayer: React.FC<RadioPlayerProps> = ({ station, isOpen, onClose }) =
           </Button>
 
           {/* Header Title */}
-          <div className="text-center py-6">
+          <div className="text-center py-3">
             <h1 className="text-3xl md:text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent">
               Fast Fit <span className="text-foreground">Radio</span>
             </h1>
