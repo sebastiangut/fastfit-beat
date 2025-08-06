@@ -31,14 +31,30 @@ const RadioStationCard: React.FC<RadioStationCardProps> = ({ station, onPlay }) 
         
         {/* Play button */}
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <Button
-            variant="default"
-            size="icon"
-            className="h-16 w-16 rounded-full bg-gradient-primary hover:scale-110 transition-transform shadow-glow"
+          <button
+            className="relative h-16 w-16 hover:scale-110 transition-transform shadow-glow"
             onClick={() => onPlay(station)}
           >
-            <Play className="h-6 w-6 ml-1" />
-          </Button>
+            {/* Background circle */}
+            <svg className="w-full h-full" viewBox="0 0 64 64">
+              <circle 
+                cx="32" 
+                cy="32" 
+                r="32" 
+                className="fill-gradient-primary"
+                style={{ fill: 'url(#gradient)' }}
+              />
+              <defs>
+                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style={{ stopColor: 'hsl(var(--primary))' }} />
+                  <stop offset="100%" style={{ stopColor: 'hsl(var(--primary-glow))' }} />
+                </linearGradient>
+              </defs>
+            </svg>
+            
+            {/* Play icon - white and smaller */}
+            <Play className="absolute inset-0 m-auto h-8 w-8 text-white ml-1" />
+          </button>
         </div>
         
         {/* Station info */}
