@@ -52,8 +52,8 @@ const RadioStationCard: React.FC<RadioStationCardProps> = ({ station, onPlay }) 
               </defs>
             </svg>
             
-            {/* Play icon - white and smaller */}
-            <Play className="absolute inset-0 m-auto h-8 w-8 text-white ml-1" />
+            {/* Play icon - white and centered */}
+            <Play className="absolute inset-0 m-auto h-8 w-8 text-white" />
           </button>
         </div>
         
