@@ -104,6 +104,11 @@ const RadioPlayer: React.FC<RadioPlayerProps> = ({ station, isOpen, onClose }) =
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
             
+            {/* Top title */}
+            <div className="absolute top-4 left-4 text-white">
+              <h1 className="text-lg font-bold">Fast Fit Radio</h1>
+            </div>
+            
             {/* Station info overlay */}
             <div className="absolute bottom-4 left-4 text-white">
               <h2 className="text-2xl md:text-2xl font-bold">{station.name}</h2>
