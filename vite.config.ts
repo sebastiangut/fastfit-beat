@@ -22,17 +22,38 @@ export default defineConfig(({ mode }) => ({
         theme_color: '#0ea5e9',
         background_color: '#0b1220',
         display: 'standalone',
+        orientation: 'portrait',
         scope: '/',
         start_url: '/',
         icons: [
-          { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
-          { src: '/icons/icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' }
+          { 
+            src: '/icons/icon-512.png', 
+            sizes: '512x512', 
+            type: 'image/png', 
+            purpose: 'any maskable' 
+          }
         ]
       },
       workbox: {
-        navigateFallbackDenylist: [/^\/_/, /\/api\//],
+        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/.*\.(png|jpg|jpeg|svg|gif)$/,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'images',
+              expiration: {
+                maxEntries: 60,
+                maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+              },
+            },
+          },
+        ],
       },
-      devOptions: { enabled: true }
+      devOptions: { 
+        enabled: true,
+        type: 'module'
+      }
     }),
     mode === 'development' &&
     componentTagger(),
