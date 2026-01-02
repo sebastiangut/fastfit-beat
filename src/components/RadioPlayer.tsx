@@ -1,16 +1,20 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Play, Pause, Volume2, VolumeX, X, SkipBack, SkipForward } from 'lucide-react';
+import Hls from 'hls.js';
+import { Play, Pause, Volume2, VolumeX, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { Card } from '@/components/ui/card';
+import { trackEvent } from '@/lib/db';
+import type { RadioStation } from '@/types/radio';
 
-interface RadioStation {
-  id: string;
-  name: string;
-  genre: string;
-  streamUrl: string;
-  coverImage: string;
-}
+// Helper functions
+const isHlsStream = (url: string): boolean => {
+  return url.includes('.m3u8') || url.includes('m3u');
+};
+
+const isSafari = (): boolean => {
+  return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+};
 
 interface RadioPlayerProps {
   station: RadioStation | null;
@@ -23,26 +27,98 @@ const RadioPlayer: React.FC<RadioPlayerProps> = ({ station, isOpen, onClose }) =
   const [volume, setVolume] = useState([75]);
   const [isMuted, setIsMuted] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const hlsRef = useRef<Hls | null>(null);
 
   useEffect(() => {
     if (station && isOpen) {
+      // Cleanup previous audio/hls instance
+      if (hlsRef.current) {
+        hlsRef.current.destroy();
+        hlsRef.current = null;
+      }
       if (audioRef.current) {
         audioRef.current.pause();
+        audioRef.current = null;
       }
-      audioRef.current = new Audio(station.streamUrl);
+
+      // Create audio element
+      audioRef.current = new Audio();
       audioRef.current.volume = volume[0] / 100;
-      
+
+      // Setup HLS or direct stream
+      if (isHlsStream(station.streamUrl)) {
+        // HLS stream
+        if (isSafari()) {
+          // Safari supports HLS natively
+          audioRef.current.src = station.streamUrl;
+          console.log('Using native HLS support (Safari) for:', station.name);
+        } else if (Hls.isSupported()) {
+          // Use hls.js for other browsers
+          hlsRef.current = new Hls({
+            enableWorker: true,
+            lowLatencyMode: true,
+          });
+          hlsRef.current.loadSource(station.streamUrl);
+          hlsRef.current.attachMedia(audioRef.current);
+
+          hlsRef.current.on(Hls.Events.MANIFEST_PARSED, () => {
+            console.log('HLS manifest parsed for:', station.name);
+            // Auto-start playback for HLS
+            audioRef.current?.play().then(() => {
+              console.log('HLS playback started successfully');
+              setIsPlaying(true);
+              trackEvent(station.id, 'play').catch(console.error);
+            }).catch((err) => {
+              console.error('HLS autoplay blocked by browser:', err);
+              setIsPlaying(false);
+            });
+          });
+
+          hlsRef.current.on(Hls.Events.ERROR, (event, data) => {
+            console.error('HLS error:', data);
+            if (data.fatal) {
+              setIsPlaying(false);
+              console.error('Fatal HLS error, cannot continue');
+            }
+          });
+        } else {
+          console.error('HLS is not supported in this browser');
+          setIsPlaying(false);
+        }
+      } else {
+        // Direct stream (MP3, AAC, etc.)
+        audioRef.current.src = station.streamUrl;
+        console.log('Using direct stream for:', station.name);
+      }
+
+      // Audio event listeners (work for both HLS and direct streams)
       audioRef.current.addEventListener('loadstart', () => {
         console.log('Loading started for:', station.name);
       });
-      
+
       audioRef.current.addEventListener('canplay', () => {
         console.log('Can play:', station.name);
-        if (isPlaying) {
-          audioRef.current?.play().catch(console.error);
-        }
+        // Auto-start playback
+        audioRef.current?.play().then(() => {
+          console.log('Playback started successfully');
+          setIsPlaying(true);
+          trackEvent(station.id, 'play').catch(console.error);
+        }).catch((err) => {
+          console.error('Autoplay blocked by browser:', err);
+          setIsPlaying(false);
+        });
       });
-      
+
+      audioRef.current.addEventListener('playing', () => {
+        console.log('Audio is playing');
+        setIsPlaying(true);
+      });
+
+      audioRef.current.addEventListener('pause', () => {
+        console.log('Audio paused');
+        setIsPlaying(false);
+      });
+
       audioRef.current.addEventListener('error', (e) => {
         console.error('Audio error:', e);
         setIsPlaying(false);
@@ -50,6 +126,10 @@ const RadioPlayer: React.FC<RadioPlayerProps> = ({ station, isOpen, onClose }) =
     }
 
     return () => {
+      if (hlsRef.current) {
+        hlsRef.current.destroy();
+        hlsRef.current = null;
+      }
       if (audioRef.current) {
         audioRef.current.pause();
         audioRef.current = null;
@@ -64,14 +144,19 @@ const RadioPlayer: React.FC<RadioPlayerProps> = ({ station, isOpen, onClose }) =
   }, [volume, isMuted]);
 
   const togglePlayPause = () => {
-    if (!audioRef.current) return;
-    
+    if (!audioRef.current || !station) return;
+
     if (isPlaying) {
       audioRef.current.pause();
-      setIsPlaying(false);
+      trackEvent(station.id, 'pause').catch(console.error);
     } else {
-      audioRef.current.play().catch(console.error);
-      setIsPlaying(true);
+      audioRef.current.play().then(() => {
+        console.log('Manual play successful');
+        trackEvent(station.id, 'play').catch(console.error);
+      }).catch((err) => {
+        console.error('Manual play failed:', err);
+        setIsPlaying(false);
+      });
     }
   };
 
@@ -83,63 +168,57 @@ const RadioPlayer: React.FC<RadioPlayerProps> = ({ station, isOpen, onClose }) =
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-end md:items-center justify-center">
-      <Card className="w-full h-full md:w-full md:h-auto md:max-w-[400px] md:m-4 bg-gradient-card shadow-player animate-fade-in md:rounded-lg rounded-none">
-        <div className="relative h-full md:h-auto flex flex-col">
+      <Card className="w-full h-full md:w-full md:h-auto md:max-w-[400px] md:m-4 bg-background shadow-player animate-fade-in md:rounded-lg rounded-none">
+        <div className="relative h-full md:h-auto flex flex-col pt-safe">
           {/* Close button */}
-          <Button 
-            variant="ghost" 
+          <Button
+            variant="ghost"
             size="icon"
-            className="absolute top-4 right-4 z-10 text-white md:text-foreground hover:bg-white/20 md:hover:bg-secondary"
+            className="absolute top-12 right-4 z-10 bg-black/30 hover:bg-black/50 backdrop-blur-sm text-white"
             onClick={onClose}
           >
             <X className="h-5 w-5" />
           </Button>
 
           {/* Header Title */}
-          <div className="text-center py-3">
+          <div className="text-center pt-12 pb-3">
             <h1 className="text-3xl md:text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-              Fast Fit <span className="text-foreground">Radio</span>
+              FastFit <span className="text-foreground">Beat</span>
             </h1>
           </div>
 
           {/* Cover image */}
-          <div className="aspect-square md:aspect-square relative overflow-hidden md:rounded-t-lg flex-shrink-0">
-            <img 
-              src={station.coverImage} 
-              alt={station.name}
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-            
-            {/* Station info overlay */}
-            <div className="absolute bottom-4 left-4 text-white">
-              <h2 className="text-2xl md:text-2xl font-bold">{station.name}</h2>
-              <p className="text-white/80">{station.genre}</p>
+          <div className="aspect-square md:aspect-square relative flex-shrink-0 p-5">
+            <div className="relative w-full h-full overflow-hidden rounded-lg">
+              <img
+                src={station.coverImage}
+                alt={station.name}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+
+              {/* Station info overlay */}
+              <div className="absolute bottom-4 left-4 text-white">
+                <h2 className="text-2xl md:text-2xl font-bold">{station.name}</h2>
+                <p className="text-white/80">{station.genre}</p>
+              </div>
             </div>
           </div>
 
           {/* Player controls */}
           <div className="p-6 space-y-6 flex-1 flex flex-col justify-center md:flex-initial md:justify-start">
             {/* Main controls */}
-            <div className="flex items-center justify-center space-x-8">
-              <Button 
-                variant="ghost" 
-                size="icon"
-                className="h-12 w-12 text-muted-foreground hover:text-foreground"
-              >
-                <SkipBack className="h-6 w-6" />
-              </Button>
-              
+            <div className="flex items-center justify-center">
               <button
-                className="relative h-16 w-16 hover:scale-105 transition-transform shadow-glow"
+                className="relative h-24 w-24 hover:scale-105 transition-transform shadow-glow"
                 onClick={togglePlayPause}
               >
                 {/* Background circle */}
-                <svg className="w-full h-full" viewBox="0 0 64 64">
-                  <circle 
-                    cx="32" 
-                    cy="32" 
-                    r="32" 
+                <svg className="w-full h-full" viewBox="0 0 96 96">
+                  <circle
+                    cx="48"
+                    cy="48"
+                    r="48"
                     style={{ fill: 'url(#gradient-player)' }}
                   />
                   <defs>
@@ -149,22 +228,14 @@ const RadioPlayer: React.FC<RadioPlayerProps> = ({ station, isOpen, onClose }) =
                     </linearGradient>
                   </defs>
                 </svg>
-                
+
                 {/* Play/Pause icon - white filled and centered */}
                 {isPlaying ? (
-                  <Pause className="absolute inset-0 m-auto h-8 w-8 text-white" fill="white" />
+                  <Pause className="absolute inset-0 m-auto h-12 w-12 text-white" fill="white" />
                 ) : (
-                  <Play className="absolute inset-0 m-auto h-8 w-8 text-white" fill="white" />
+                  <Play className="absolute inset-0 m-auto h-12 w-12 text-white" fill="white" />
                 )}
               </button>
-              
-              <Button 
-                variant="ghost" 
-                size="icon"
-                className="h-12 w-12 text-muted-foreground hover:text-foreground"
-              >
-                <SkipForward className="h-6 w-6" />
-              </Button>
             </div>
 
             {/* Volume control */}

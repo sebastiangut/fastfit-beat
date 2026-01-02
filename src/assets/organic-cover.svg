@@ -1,0 +1,16 @@
+<svg width="800" height="800" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="organic-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#228B22;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#A0522D;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="800" fill="url(#organic-gradient)"/>
+  <rect width="800" height="800" fill="rgba(0,0,0,0.3)"/>
+  <!-- Organic wave patterns -->
+  <path d="M 0 150 Q 100 130 200 150 T 400 150 T 600 150 T 800 150" stroke="rgba(200,220,180,0.6)" stroke-width="3" fill="none"/>
+  <path d="M 0 270 Q 100 250 200 270 T 400 270 T 600 270 T 800 270" stroke="rgba(200,220,180,0.6)" stroke-width="3" fill="none"/>
+  <path d="M 0 390 Q 100 370 200 390 T 400 390 T 600 390 T 800 390" stroke="rgba(200,220,180,0.6)" stroke-width="3" fill="none"/>
+  <path d="M 0 510 Q 100 490 200 510 T 400 510 T 600 510 T 800 510" stroke="rgba(200,220,180,0.6)" stroke-width="3" fill="none"/>
+  <path d="M 0 630 Q 100 610 200 630 T 400 630 T 600 630 T 800 630" stroke="rgba(200,220,180,0.6)" stroke-width="3" fill="none"/>
+</svg>

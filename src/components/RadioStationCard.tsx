@@ -1,15 +1,7 @@
 import React from 'react';
 import { Play } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-
-interface RadioStation {
-  id: string;
-  name: string;
-  genre: string;
-  streamUrl: string;
-  coverImage: string;
-}
+import type { RadioStation } from '@/types/radio';
 
 interface RadioStationCardProps {
   station: RadioStation;
@@ -20,15 +12,15 @@ const RadioStationCard: React.FC<RadioStationCardProps> = ({ station, onPlay }) 
   return (
     <Card className="group relative overflow-hidden bg-gradient-card shadow-card hover:shadow-glow transition-all duration-300 hover:scale-105">
       <div className="aspect-square relative">
-        <img 
-          src={station.coverImage} 
+        <img
+          src={station.coverImage}
           alt={station.name}
           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
         />
         
         {/* Overlay gradient */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
-        
+
         {/* Play button */}
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <button

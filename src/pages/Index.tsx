@@ -1,102 +1,36 @@
-import React, { useState } from 'react';
-import { Music, Radio, User, Heart, Play } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { Music, Radio, User, Play, Settings } from 'lucide-react';
 import RadioStationCard from '@/components/RadioStationCard';
 import RadioPlayer from '@/components/RadioPlayer';
-import ThemeToggle from '@/components/ThemeToggle';
 import { Button } from '@/components/ui/button';
-
-// Import cover images
-import hiitCover from '@/assets/hiit-cover.jpg';
-import crosstrainCover from '@/assets/crosstrain-cover.jpg';
-import yogaCover from '@/assets/yoga-cover.jpg';
-import spinCover from '@/assets/spin-cover.jpg';
-import highenergyCover from '@/assets/highenergy-cover.jpg';
-import strengthCover from '@/assets/strength-cover.jpg';
-
-interface RadioStation {
-  id: string;
-  name: string;
-  genre: string;
-  streamUrl: string;
-  coverImage: string;
-}
-
-const radioStations: RadioStation[] = [
-  {
-    id: '1',
-    name: 'HIIT',
-    genre: 'EDM, Pop, Throwbacks, 140 Bpm',
-    streamUrl: 'http://ice6.somafm.com/reggae-256-mp3',
-    coverImage: hiitCover,
-  },
-  {
-    id: '2',
-    name: 'Crosstrain',
-    genre: '140 Bpm, Pop, Uptempo',
-    streamUrl: 'http://ice4.somafm.com/seventies-320-mp3',
-    coverImage: crosstrainCover,
-  },
-  {
-    id: '3',
-    name: 'YOGA',
-    genre: 'Ambient, Chill, Meditation',
-    streamUrl: 'http://ice6.somafm.com/u80s-256-mp3',
-    coverImage: yogaCover,
-  },
-  {
-    id: '4',
-    name: 'SPIN',
-    genre: 'High Energy, Electronic, Rock',
-    streamUrl: 'http://ice2.somafm.com/bootliquor-320-mp3',
-    coverImage: spinCover,
-  },
-  {
-    id: '5',
-    name: 'High Energy',
-    genre: 'EDM, Hardcore, 160+ Bpm',
-    streamUrl: 'http://ice4.somafm.com/lush-128-aac',
-    coverImage: highenergyCover,
-  },
-  {
-    id: '6',
-    name: 'Strength',
-    genre: 'Rock, Metal, Power',
-    streamUrl: 'http://ice4.somafm.com/covers-128-aac',
-    coverImage: strengthCover,
-  },
-  {
-    id: '7',
-    name: 'Indie Pop',
-    genre: 'Alternative, Indie, Pop',
-    streamUrl: 'http://ice4.somafm.com/indiepop-128-aac',
-    coverImage: spinCover,
-  },
-  {
-    id: '8',
-    name: 'Celtic',
-    genre: 'Celtic, Folk, Traditional',
-    streamUrl: 'http://ice6.somafm.com/thistle-128-aac',
-    coverImage: yogaCover,
-  },
-  {
-    id: '9',
-    name: 'Dubstep',
-    genre: 'Electronic, Dubstep, Bass',
-    streamUrl: 'http://ice1.somafm.com/dubstep-128-aac',
-    coverImage: highenergyCover,
-  },
-  {
-    id: '10',
-    name: 'Soul',
-    genre: 'Soul, R&B, Funk',
-    streamUrl: 'http://ice4.somafm.com/7soul-128-aac',
-    coverImage: strengthCover,
-  },
-];
+import { Skeleton } from '@/components/ui/skeleton';
+import { initDB, getStations } from '@/lib/db';
+import { migrateStations } from '@/lib/migration';
+import type { RadioStation } from '@/types/radio';
 
 const Index = () => {
   const [selectedStation, setSelectedStation] = useState<RadioStation | null>(null);
   const [isPlayerOpen, setIsPlayerOpen] = useState(false);
+  const [radioStations, setRadioStations] = useState<RadioStation[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const loadStations = async () => {
+      try {
+        await initDB();
+        await migrateStations();
+        const stations = await getStations();
+        setRadioStations(stations);
+      } catch (error) {
+        console.error('Failed to load stations:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadStations();
+  }, []);
 
   const handlePlayStation = (station: RadioStation) => {
     setSelectedStation(station);
@@ -121,12 +55,13 @@ const Index = () => {
                 </Button>
               </div>
             </div>
-            
+
             <div className="flex items-center space-x-3">
-              <Button variant="ghost" size="icon">
-                <Heart className="h-5 w-5" />
-              </Button>
-              <ThemeToggle />
+              <Link to="/admin">
+                <Button variant="ghost" size="icon">
+                  <Settings className="h-5 w-5" />
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -137,7 +72,7 @@ const Index = () => {
         {/* Hero section */}
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-primary bg-clip-text text-transparent">
-            Fast Fit <span className="text-foreground">music</span>
+            FastFit <span className="text-foreground">Beat</span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Energize your workout with our curated radio stations designed for every fitness routine
@@ -154,16 +89,17 @@ const Index = () => {
                   Featured Station
                 </span>
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-2">FEEL THE POWER</h2>
-              <p className="text-lg text-muted-foreground mb-6">High Energy, Top 40, EDM</p>
-              <Button 
-                variant="default" 
+              <h2 className="text-3xl md:text-4xl font-bold mb-2">MAINSTAGE</h2>
+              <p className="text-lg text-muted-foreground mb-6">Festival Hits, EDM, Top 40</p>
+              <Button
+                variant="default"
                 size="lg"
                 className="bg-gradient-primary hover:scale-105 transition-transform shadow-glow"
-                onClick={() => handlePlayStation(radioStations[4])}
+                onClick={() => radioStations.length > 0 && handlePlayStation(radioStations[0])}
+                disabled={isLoading || radioStations.length === 0}
               >
                 <Play className="h-5 w-5 mr-2" />
-                Start Listening
+                {isLoading ? 'Loading...' : 'Start Listening'}
               </Button>
             </div>
             <div className="absolute top-0 right-0 w-64 h-64 bg-gym-primary/10 rounded-full blur-3xl" />
@@ -186,15 +122,23 @@ const Index = () => {
             </Button>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
-            {radioStations.map((station) => (
-              <RadioStationCard
-                key={station.id}
-                station={station}
-                onPlay={handlePlayStation}
-              />
-            ))}
-          </div>
+          {isLoading ? (
+            <div className="grid grid-cols-2 gap-4">
+              {[...Array(6)].map((_, i) => (
+                <Skeleton key={i} className="aspect-square rounded-lg" />
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 gap-4">
+              {radioStations.map((station) => (
+                <RadioStationCard
+                  key={station.id}
+                  station={station}
+                  onPlay={handlePlayStation}
+                />
+              ))}
+            </div>
+          )}
         </section>
 
         {/* Bottom section */}
@@ -204,10 +148,6 @@ const Index = () => {
             Choose your perfect workout soundtrack and let the music drive your fitness journey
           </p>
           <div className="flex justify-center space-x-4">
-            <Button variant="outline" size="lg">
-              <Music className="h-5 w-5 mr-2" />
-              Browse Genres
-            </Button>
             <Button variant="default" size="lg" className="bg-gradient-primary">
               <Radio className="h-5 w-5 mr-2" />
               Start Free Trial

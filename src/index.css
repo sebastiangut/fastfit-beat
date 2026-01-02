@@ -8,7 +8,7 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 98%;
+    --background: 0 0% 100%;
     --foreground: 220 13% 13%;
 
     --card: 0 0% 100%;
@@ -72,7 +72,7 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 220 13% 9%;
+    --background: 0 0% 0%;
     --foreground: 220 13% 98%;
 
     --card: 220 13% 12%;
@@ -133,5 +133,33 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+  }
+
+  /* Hide scrollbars for mobile-first design */
+  * {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+
+  *::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+
+  /* Desktop max-width container */
+  #root {
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  @media (max-width: 600px) {
+    #root {
+      max-width: 100%;
+    }
+  }
+
+  /* Safe area support for notched devices */
+  .pt-safe {
+    padding-top: env(safe-area-inset-top);
   }
 }
