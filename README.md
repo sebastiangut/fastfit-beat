@@ -1,73 +1,106 @@
-# Welcome to your Lovable project
+# FastFit Beat 🎵
 
-## Project info
+Your workout music companion - Energize your fitness routine with curated radio stations designed for every workout.
 
-**URL**: https://lovable.dev/projects/b6461abf-2450-46fb-8561-d8738f94b769
+## Features
 
-## How can I edit this code?
+- 🎧 **HLS Streaming** - High-quality audio streaming with HLS.js support
+- 📱 **PWA Support** - Install as a native app on mobile devices
+- 🌙 **Dark Mode Only** - Sleek, modern dark interface
+- 📊 **Admin Dashboard** - Manage stations and view analytics
+- 💾 **Offline Support** - IndexedDB for data persistence
+- 🔐 **Secure Admin** - Password-protected admin panel
+- 📈 **Analytics** - Track plays, favorites, and engagement
+- 📱 **Mobile Optimized** - iPhone notch support with safe areas
 
-There are several ways of editing your application.
+## Tech Stack
 
-**Use Lovable**
+- **Frontend**: React 18 + TypeScript
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS + shadcn/ui
+- **Audio**: HLS.js for adaptive streaming
+- **Database**: IndexedDB (via idb)
+- **Deployment**: Netlify
+- **PWA**: Vite PWA Plugin
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/b6461abf-2450-46fb-8561-d8738f94b769) and start prompting.
+## Local Development
 
-Changes made via Lovable will be committed automatically to this repo.
+```bash
+# Install dependencies
+npm install
 
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start dev server
 npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
 ```
 
-**Edit a file directly in GitHub**
+## Deployment to Netlify
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Connect GitHub Repository
 
-**Use GitHub Codespaces**
+1. Go to [Netlify](https://app.netlify.com/)
+2. Click **"Add new site"** → **"Import an existing project"**
+3. Choose **GitHub** and authorize Netlify
+4. Select the repository: `sebastiangut/fastfit-beat`
+5. Netlify will auto-detect build settings from `netlify.toml`:
+   - **Build command**: `npm run build`
+   - **Publish directory**: `dist`
+   - **Node version**: 18
+6. Click **"Deploy site"**
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Netlify CLI (Alternative)
 
-## What technologies are used for this project?
+```bash
+# Install Netlify CLI
+npm install -g netlify-cli
 
-This project is built with:
+# Login to Netlify
+netlify login
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+# Deploy
+netlify deploy --prod
+```
 
-## How can I deploy this project?
+## Admin Panel
 
-Simply open [Lovable](https://lovable.dev/projects/b6461abf-2450-46fb-8561-d8738f94b769) and click on Share -> Publish.
+Access the admin panel at `/admin` to:
+- Add/Edit/Delete radio stations
+- Upload custom cover images
+- View analytics (plays, favorites)
+- Manage station metadata
 
-## Can I connect a custom domain to my Lovable project?
+**First-time setup**: Create an admin password on first visit.
 
-Yes, you can!
+## Project Structure
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+```
+src/
+├── assets/          # Station cover images
+├── components/      # React components
+│   ├── admin/      # Admin panel components
+│   └── ui/         # shadcn/ui components
+├── lib/            # Utilities (db, migration)
+├── pages/          # Route pages
+├── types/          # TypeScript types
+└── index.css       # Global styles + design system
+```
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## Browser Support
+
+- Chrome/Edge: Full support (HLS via hls.js)
+- Firefox: Full support (HLS via hls.js)
+- Safari: Full support (Native HLS)
+- Mobile Safari: Optimized with safe area insets
+
+## License
+
+MIT
+
+---
+
+Built with ❤️ using [Claude Code](https://claude.com/claude-code)
