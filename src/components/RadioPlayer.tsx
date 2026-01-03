@@ -188,7 +188,7 @@ const RadioPlayer: React.FC<RadioPlayerProps> = ({ station, isOpen, onClose }) =
           </div>
 
           {/* Cover image */}
-          <div className="aspect-square md:aspect-square relative flex-shrink-0 p-5">
+          <div className="aspect-square md:aspect-square relative flex-shrink-0 px-5 py-5" style={{ paddingLeft: 'max(1.25rem, env(safe-area-inset-left))', paddingRight: 'max(1.25rem, env(safe-area-inset-right))' }}>
             <div className="relative w-full h-full overflow-hidden rounded-lg">
               <img
                 src={station.coverImage}
@@ -206,7 +206,7 @@ const RadioPlayer: React.FC<RadioPlayerProps> = ({ station, isOpen, onClose }) =
           </div>
 
           {/* Player controls */}
-          <div className="p-6 space-y-6 flex-1 flex flex-col justify-center md:flex-initial md:justify-start">
+          <div className="px-6 py-6 space-y-6 flex-1 flex flex-col justify-center md:flex-initial md:justify-start" style={{ paddingLeft: 'max(1.5rem, env(safe-area-inset-left))', paddingRight: 'max(1.5rem, env(safe-area-inset-right))' }}>
             {/* Main controls */}
             <div className="flex items-center justify-center">
               <button
