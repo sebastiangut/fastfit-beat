@@ -170,21 +170,19 @@ const RadioPlayer: React.FC<RadioPlayerProps> = ({ station, isOpen, onClose }) =
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-end md:items-center justify-center" style={{ height: '100dvh' }}>
       <Card className="w-full md:w-full md:h-auto md:max-w-[400px] md:m-4 bg-background shadow-player animate-fade-in md:rounded-lg rounded-none" style={{ height: '100dvh' }}>
         <div className="relative h-full md:h-auto flex flex-col" style={{ paddingTop: 'env(safe-area-inset-top)', paddingBottom: 'env(safe-area-inset-bottom)' }}>
-          {/* Close button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute top-12 right-4 z-10 bg-black/30 hover:bg-black/50 backdrop-blur-sm text-white"
-            onClick={onClose}
-          >
-            <X className="h-5 w-5" />
-          </Button>
-
-          {/* Header Title */}
-          <div className="text-center pt-12 pb-3">
+          {/* Header with Title and Close button */}
+          <div className="relative flex items-center justify-center pt-12 pb-3 px-4">
             <h1 className="text-3xl md:text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent">
               FastFit <span className="text-foreground">Beat</span>
             </h1>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="absolute right-4 text-white hover:bg-white/10"
+              onClick={onClose}
+            >
+              <X className="h-7 w-7" strokeWidth={2.5} />
+            </Button>
           </div>
 
           {/* Cover image */}
