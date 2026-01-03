@@ -167,9 +167,9 @@ const RadioPlayer: React.FC<RadioPlayerProps> = ({ station, isOpen, onClose }) =
   if (!station || !isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-end md:items-center justify-center">
-      <Card className="w-full h-full md:w-full md:h-auto md:max-w-[400px] md:m-4 bg-background shadow-player animate-fade-in md:rounded-lg rounded-none">
-        <div className="relative h-full md:h-auto flex flex-col pt-safe">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-end md:items-center justify-center" style={{ height: '100dvh' }}>
+      <Card className="w-full md:w-full md:h-auto md:max-w-[400px] md:m-4 bg-background shadow-player animate-fade-in md:rounded-lg rounded-none" style={{ height: '100dvh' }}>
+        <div className="relative h-full md:h-auto flex flex-col" style={{ paddingTop: 'env(safe-area-inset-top)', paddingBottom: 'env(safe-area-inset-bottom)' }}>
           {/* Close button */}
           <Button
             variant="ghost"

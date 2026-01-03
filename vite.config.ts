@@ -16,9 +16,9 @@ export default defineConfig(({ mode }) => ({
       injectRegister: 'auto',
       includeAssets: ['favicon.ico', 'icons/icon-512.png'],
       manifest: {
-        name: 'Gym Groove Hub',
-        short_name: 'Gym Groove',
-        description: 'High-energy gym radio player with workout stations.',
+        name: 'FastFit Beat - Workout Music',
+        short_name: 'FastFit Beat',
+        description: 'Energize your workout with curated radio stations designed for every fitness routine.',
         theme_color: '#0ea5e9',
         background_color: '#0b1220',
         display: 'standalone',
@@ -26,11 +26,29 @@ export default defineConfig(({ mode }) => ({
         scope: '/',
         start_url: '/',
         icons: [
-          { 
-            src: '/icons/icon-512.png', 
-            sizes: '512x512', 
-            type: 'image/png', 
-            purpose: 'any maskable' 
+          {
+            src: '/icons/icon-512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'any'
+          },
+          {
+            src: '/icons/icon-512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable'
+          },
+          {
+            src: '/icons/icon-512.png',
+            sizes: '192x192',
+            type: 'image/png',
+            purpose: 'any'
+          },
+          {
+            src: '/icons/icon-512.png',
+            sizes: '180x180',
+            type: 'image/png',
+            purpose: 'any'
           }
         ]
       },
