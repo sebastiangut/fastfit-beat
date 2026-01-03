@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Music, Radio, User, Play, Settings } from 'lucide-react';
+import { Music, Radio, User, Play } from 'lucide-react';
 import RadioStationCard from '@/components/RadioStationCard';
 import RadioPlayer from '@/components/RadioPlayer';
 import { Button } from '@/components/ui/button';
@@ -57,11 +56,7 @@ const Index = () => {
             </div>
 
             <div className="flex items-center space-x-3">
-              <Link to="/admin">
-                <Button variant="ghost" size="icon">
-                  <Settings className="h-5 w-5" />
-                </Button>
-              </Link>
+              {/* Settings removed */}
             </div>
           </div>
         </div>

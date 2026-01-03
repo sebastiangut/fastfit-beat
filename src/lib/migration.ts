@@ -14,7 +14,7 @@ const DEFAULT_STATIONS: Omit<RadioStation, 'createdAt' | 'updatedAt'>[] = [
     id: '1',
     name: 'Mainstage',
     genre: 'Festival Hits, EDM, Top 40',
-    streamUrl: 'https://dancewave.online/dance.aacp/playlist.m3u8',
+    streamUrl: 'https://72.62.61.67/hls/fastfit_mainstage/live.m3u8',
     coverImage: mainstageCover,
     isHls: true,
   },
@@ -22,7 +22,7 @@ const DEFAULT_STATIONS: Omit<RadioStation, 'createdAt' | 'updatedAt'>[] = [
     id: '2',
     name: 'Classics',
     genre: 'Timeless Hits, 80s, 90s',
-    streamUrl: 'https://dancewave.online/dance.aacp/playlist.m3u8',
+    streamUrl: 'https://72.62.61.67/hls/fastfit_classics/live.m3u8',
     coverImage: classicsCover,
     isHls: true,
   },
@@ -30,7 +30,7 @@ const DEFAULT_STATIONS: Omit<RadioStation, 'createdAt' | 'updatedAt'>[] = [
     id: '3',
     name: 'Chill',
     genre: 'Ambient, Lounge, Downtempo',
-    streamUrl: 'https://dancewave.online/dance.aacp/playlist.m3u8',
+    streamUrl: 'https://72.62.61.67/hls/fastfit_chill/live.m3u8',
     coverImage: chillCover,
     isHls: true,
   },
@@ -38,7 +38,7 @@ const DEFAULT_STATIONS: Omit<RadioStation, 'createdAt' | 'updatedAt'>[] = [
     id: '4',
     name: 'Organic',
     genre: 'Organic, Ambiental House',
-    streamUrl: 'https://dancewave.online/dance.aacp/playlist.m3u8',
+    streamUrl: 'https://72.62.61.67/hls/fastfit_organic/live.m3u8',
     coverImage: organicCover,
     isHls: true,
   },
@@ -46,7 +46,7 @@ const DEFAULT_STATIONS: Omit<RadioStation, 'createdAt' | 'updatedAt'>[] = [
     id: '5',
     name: 'Afro',
     genre: 'Afro House',
-    streamUrl: 'https://dancewave.online/dance.aacp/playlist.m3u8',
+    streamUrl: 'https://72.62.61.67/hls/fastfit_afro/live.m3u8',
     coverImage: afroCover,
     isHls: true,
   },
@@ -54,7 +54,7 @@ const DEFAULT_STATIONS: Omit<RadioStation, 'createdAt' | 'updatedAt'>[] = [
     id: '6',
     name: 'House',
     genre: 'Deep House, Electronic, Dance',
-    streamUrl: 'https://dancewave.online/dance.aacp/playlist.m3u8',
+    streamUrl: 'https://72.62.61.67/hls/fastfit_house/live.m3u8',
     coverImage: houseCover,
     isHls: true,
   },
@@ -64,8 +64,8 @@ export async function migrateStations(): Promise<void> {
   await initDB();
   const existingStations = await getStations();
 
-  // Only seed if database is empty
   if (existingStations.length === 0) {
+    // Seed if database is empty
     console.log('Database is empty. Seeding with default stations...');
 
     for (const station of DEFAULT_STATIONS) {
@@ -73,5 +73,23 @@ export async function migrateStations(): Promise<void> {
     }
 
     console.log(`Successfully seeded ${DEFAULT_STATIONS.length} stations.`);
+  } else {
+    // Update existing stations with new stream URLs
+    console.log('Updating existing stations with new stream URLs...');
+
+    for (const defaultStation of DEFAULT_STATIONS) {
+      const existing = existingStations.find(s => s.id === defaultStation.id);
+      if (existing) {
+        // Update the station with new stream URL
+        const { updateStation } = await import('./db');
+        await updateStation(defaultStation.id, {
+          streamUrl: defaultStation.streamUrl,
+          isHls: defaultStation.isHls,
+        });
+        console.log(`Updated ${defaultStation.name} with new stream URL`);
+      }
+    }
+
+    console.log('Stations updated successfully.');
   }
 }
