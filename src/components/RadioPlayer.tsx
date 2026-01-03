@@ -188,25 +188,27 @@ const RadioPlayer: React.FC<RadioPlayerProps> = ({ station, isOpen, onClose }) =
           </div>
 
           {/* Cover image */}
-          <div className="aspect-square md:aspect-square relative flex-shrink-0 py-5" style={{ paddingLeft: '1.25rem', paddingRight: '1.25rem' }}>
-            <div className="relative w-full h-full overflow-hidden rounded-lg">
-              <img
-                src={station.coverImage}
-                alt={station.name}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+          <div className="w-full flex-shrink-0 py-5">
+            <div className="mx-5">
+              <div className="aspect-square relative w-full overflow-hidden rounded-lg">
+                <img
+                  src={station.coverImage}
+                  alt={station.name}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
-              {/* Station info overlay */}
-              <div className="absolute bottom-4 left-4 text-white">
-                <h2 className="text-2xl md:text-2xl font-bold">{station.name}</h2>
-                <p className="text-white/80">{station.genre}</p>
+                {/* Station info overlay */}
+                <div className="absolute bottom-4 left-4 text-white">
+                  <h2 className="text-2xl md:text-2xl font-bold">{station.name}</h2>
+                  <p className="text-white/80">{station.genre}</p>
+                </div>
               </div>
             </div>
           </div>
 
           {/* Player controls */}
-          <div className="py-6 space-y-6 flex-1 flex flex-col justify-center md:flex-initial md:justify-start" style={{ paddingLeft: '1.5rem', paddingRight: '1.5rem' }}>
+          <div className="px-6 py-6 space-y-6 flex-1 flex flex-col justify-center md:flex-initial md:justify-start">
             {/* Main controls */}
             <div className="flex items-center justify-center">
               <button
