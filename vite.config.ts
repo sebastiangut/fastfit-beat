@@ -5,7 +5,6 @@ import { componentTagger } from "lovable-tagger";
 import { VitePWA } from "vite-plugin-pwa";
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: '/fastfit-beat/',
   server: {
     host: "::",
     port: 8080,
@@ -24,8 +23,8 @@ export default defineConfig(({ mode }) => ({
         background_color: '#0b1220',
         display: 'standalone',
         orientation: 'portrait',
-        scope: '/fastfit-beat/',
-        start_url: '/fastfit-beat/',
+        scope: '/',
+        start_url: '/',
         icons: [
           { 
             src: '/icons/icon-512.png', 
