@@ -37,16 +37,16 @@ All colors MUST be HSL.
     --ring: 271 81% 56%;
 
     /* Custom radio app colors */
-    --gym-primary: 271 81% 56%;
-    --gym-primary-glow: 271 100% 70%;
+    --gym-primary: 65 92% 56%;
+    --gym-primary-glow: 65 100% 70%;
     --gym-secondary: 195 100% 50%;
     --gym-accent: 45 100% 51%;
-    
+
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(271 81% 56%), hsl(195 100% 50%));
+    --gradient-primary: linear-gradient(135deg, hsl(65 92% 56%), hsl(195 100% 50%));
     --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(220 13% 97%));
-    --gradient-hero: linear-gradient(135deg, hsl(271 81% 56% / 0.1), hsl(195 100% 50% / 0.1));
-    
+    --gradient-hero: linear-gradient(135deg, hsl(65 92% 56% / 0.1), hsl(195 100% 50% / 0.1));
+
     /* Shadows */
     --shadow-card: 0 4px 20px hsl(220 13% 13% / 0.08);
     --shadow-player: 0 20px 60px hsl(271 81% 56% / 0.3);
@@ -101,16 +101,16 @@ All colors MUST be HSL.
     --ring: 271 81% 56%;
 
     /* Custom dark theme colors */
-    --gym-primary: 271 81% 56%;
-    --gym-primary-glow: 271 100% 70%;
+    --gym-primary: 65 92% 56%;
+    --gym-primary-glow: 65 100% 70%;
     --gym-secondary: 195 100% 50%;
     --gym-accent: 45 100% 51%;
-    
+
     /* Dark theme gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(271 81% 56%), hsl(195 100% 50%));
+    --gradient-primary: linear-gradient(135deg, hsl(65 92% 56%), hsl(195 100% 50%));
     --gradient-card: linear-gradient(145deg, hsl(220 13% 12%), hsl(220 13% 15%));
-    --gradient-hero: linear-gradient(135deg, hsl(271 81% 56% / 0.2), hsl(195 100% 50% / 0.1));
-    
+    --gradient-hero: linear-gradient(135deg, hsl(65 92% 56% / 0.2), hsl(195 100% 50% / 0.1));
+
     /* Dark theme shadows */
     --shadow-card: 0 4px 20px hsl(220 13% 5% / 0.5);
     --shadow-player: 0 20px 60px hsl(271 81% 56% / 0.4);
@@ -137,12 +137,15 @@ All colors MUST be HSL.
 
   /* Hide scrollbars for mobile-first design */
   * {
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
   }
 
   *::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
+    display: none;
+    /* Chrome, Safari, Opera */
   }
 
   /* Desktop max-width container */

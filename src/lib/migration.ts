@@ -2,12 +2,12 @@ import { initDB, getStations, addStation } from './db';
 import type { RadioStation } from '@/types/radio';
 
 // Import cover images
-import mainstageCover from '@/assets/mainstage-cover.svg';
-import classicsCover from '@/assets/classics-cover.svg';
-import chillCover from '@/assets/chill-cover.svg';
-import organicCover from '@/assets/organic-cover.svg';
-import afroCover from '@/assets/afro-cover.svg';
-import houseCover from '@/assets/house-cover.svg';
+import mainstageCover from '@/assets/mainstage-cover.png';
+import classicsCover from '@/assets/classics-cover.png';
+import chillCover from '@/assets/chill-cover.png';
+import organicCover from '@/assets/organic-cover.png';
+import afroCover from '@/assets/afro-cover.png';
+import houseCover from '@/assets/house-cover.png';
 
 const DEFAULT_STATIONS: Omit<RadioStation, 'createdAt' | 'updatedAt'>[] = [
   {
@@ -85,8 +85,9 @@ export async function migrateStations(): Promise<void> {
         await updateStation(defaultStation.id, {
           streamUrl: defaultStation.streamUrl,
           isHls: defaultStation.isHls,
+          coverImage: defaultStation.coverImage,
         });
-        console.log(`Updated ${defaultStation.name} with new stream URL`);
+        console.log(`Updated ${defaultStation.name} with new stream URL and cover image`);
       }
     }
 

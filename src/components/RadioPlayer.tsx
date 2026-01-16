@@ -172,9 +172,9 @@ const RadioPlayer: React.FC<RadioPlayerProps> = ({ station, isOpen, onClose }) =
         <div className="relative h-full md:h-auto flex flex-col" style={{ paddingTop: 'env(safe-area-inset-top)', paddingBottom: 'env(safe-area-inset-bottom)' }}>
           {/* Header with Title and Close button */}
           <div className="relative flex items-center justify-center pt-12 pb-3 px-4">
-            <h1 className="text-3xl md:text-4xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-              FastFit <span className="text-foreground">Beat</span>
-            </h1>
+            <div className="flex justify-center w-full">
+              <img src="/fastfit_gold.png" alt="FastFit Beat" className="h-12 md:h-16 object-contain" />
+            </div>
             <Button
               variant="ghost"
               size="icon"
@@ -195,6 +195,8 @@ const RadioPlayer: React.FC<RadioPlayerProps> = ({ station, isOpen, onClose }) =
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+
+
 
                 {/* Station info overlay */}
                 <div className="absolute bottom-4 left-4 text-white">
@@ -252,7 +254,7 @@ const RadioPlayer: React.FC<RadioPlayerProps> = ({ station, isOpen, onClose }) =
                   <Volume2 className="h-4 w-4" />
                 )}
               </Button>
-              
+
               <Slider
                 value={volume}
                 onValueChange={setVolume}
@@ -260,7 +262,7 @@ const RadioPlayer: React.FC<RadioPlayerProps> = ({ station, isOpen, onClose }) =
                 step={1}
                 className="flex-1"
               />
-              
+
               <span className="text-sm text-muted-foreground w-8">
                 {isMuted ? 0 : volume[0]}
               </span>
